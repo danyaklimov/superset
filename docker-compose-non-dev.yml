@@ -64,6 +64,9 @@ services:
         required: false
     build:
       <<: *common-build
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
     user: "root"
