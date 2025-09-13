@@ -193,7 +193,9 @@ COPY scripts/check-env.py scripts/
 COPY --chmod=755 ./docker/entrypoints/run-server.sh /usr/bin/
 
 # Some debian libs
-RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+RUN echo "deb http://mirror.yandex.ru/debian trixie main" > /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian trixie-updates main" >> /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian-security trixie-security main" >> /etc/apt/sources.list && \
     /app/docker/apt-install.sh \
       curl \
       libsasl2-dev \
@@ -256,7 +258,9 @@ USER superset
 FROM python-common AS dev
 
 # Debian libs needed for dev
-RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+RUN echo "deb http://mirror.yandex.ru/debian trixie main" > /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian trixie-updates main" >> /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian-security trixie-security main" >> /etc/apt/sources.list && \
     /app/docker/apt-install.sh \
     git \
     pkg-config \
