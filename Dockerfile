@@ -40,7 +40,10 @@ COPY docker/ /app/docker/
 ARG NPM_BUILD_CMD="build"
 
 # Install system dependencies required for node-gyp
-RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+# Install system dependencies required for node-gyp
+RUN echo "deb http://mirror.yandex.ru/debian trixie main" > /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian trixie-updates main" >> /etc/apt/sources.list && \
+    echo "deb http://mirror.yandex.ru/debian-security trixie-security main" >> /etc/apt/sources.list && \
     /app/docker/apt-install.sh build-essential python3 zstd
 
 # Define environment variables for frontend build
