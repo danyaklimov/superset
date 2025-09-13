@@ -41,10 +41,7 @@ ARG NPM_BUILD_CMD="build"
 
 # Install system dependencies required for node-gyp
 # Install system dependencies required for node-gyp
-RUN echo "deb http://cloudflare.debian.net/debian trixie main" > /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian trixie-updates main" >> /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian-security trixie-security main" >> /etc/apt/sources.list && \
-    /app/docker/apt-install.sh build-essential python3 zstd
+RUN /app/docker/apt-install.sh build-essential python3 zstd
 
 # Define environment variables for frontend build
 ENV BUILD_CMD=${NPM_BUILD_CMD} \
@@ -193,10 +190,7 @@ COPY scripts/check-env.py scripts/
 COPY --chmod=755 ./docker/entrypoints/run-server.sh /usr/bin/
 
 # Some debian libs
-RUN echo "deb http://cloudflare.debian.net/debian trixie main" > /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian trixie-updates main" >> /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian-security trixie-security main" >> /etc/apt/sources.list && \
-    /app/docker/apt-install.sh \
+RUN /app/docker/apt-install.sh \
       curl \
       libsasl2-dev \
       libsasl2-modules-gssapi-mit \
@@ -258,11 +252,7 @@ USER superset
 FROM python-common AS dev
 
 # Debian libs needed for dev
-RUN echo "deb http://cloudflare.debian.net/debian trixie main" > /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian trixie-updates main" >> /etc/apt/sources.list && \
-    echo "deb http://cloudflare.debian.net/debian-security trixie-security main" >> /etc/apt/sources.list && \
-
-    /app/docker/apt-install.sh \
+RUN /app/docker/apt-install.sh \
     git \
     pkg-config \
     default-libmysqlclient-dev
