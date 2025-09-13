@@ -40,7 +40,8 @@ COPY docker/ /app/docker/
 ARG NPM_BUILD_CMD="build"
 
 # Install system dependencies required for node-gyp
-RUN /app/docker/apt-install.sh build-essential python3 zstd
+RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+    /app/docker/apt-install.sh build-essential python3 zstd
 
 # Define environment variables for frontend build
 ENV BUILD_CMD=${NPM_BUILD_CMD} \
@@ -189,7 +190,8 @@ COPY scripts/check-env.py scripts/
 COPY --chmod=755 ./docker/entrypoints/run-server.sh /usr/bin/
 
 # Some debian libs
-RUN /app/docker/apt-install.sh \
+RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+    /app/docker/apt-install.sh \
       curl \
       libsasl2-dev \
       libsasl2-modules-gssapi-mit \
@@ -251,7 +253,8 @@ USER superset
 FROM python-common AS dev
 
 # Debian libs needed for dev
-RUN /app/docker/apt-install.sh \
+RUN sed -i 's|http://deb.debian.org|http://mirror.yandex.ru|g' /etc/apt/sources.list && \
+    /app/docker/apt-install.sh \
     git \
     pkg-config \
     default-libmysqlclient-dev
